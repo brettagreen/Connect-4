@@ -153,7 +153,6 @@ function checkForWin() {
     // Check four cells to see if they're all color of current player
     //  - cells: list of four (y, x) cells
     //  - returns true if all are legal coordinates & all match currPlayer
-    console.log(cells);
     return cells.every(
       ([y, x]) =>
         y >= 0 &&
