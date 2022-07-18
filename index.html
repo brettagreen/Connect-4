@@ -6,10 +6,30 @@
 <body>
 
 <div id="game">
-  <table id="board"></table>
+  <table id="board">
+  </table>
 </div>
-
-<script src="connect4.js"></script>
+<section>
+  <form id="playersForm">
+    <label>
+      How many players?
+    </label>
+    <select id="numPlayers">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </form>
+  <form id="colorForm">
+    <label>
+      Enter player colors:
+    </label> &nbsp;
+    <button id="start">start a new game</button>
+  </form>
+</section>
+<script src="connect4OO.js"></script>
 
 </body>
 </html>

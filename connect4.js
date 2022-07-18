@@ -126,7 +126,7 @@ function endGame(msg) {
     const cell = placeInTable(column, y);
 
     if (cell != null) {
-        const allTDs = Array.from(document.querySelectorAll('td')).splice(7); //all table td elements, header row removed
+        const allTDs = Array.from(document.querySelectorAll('td')).splice(WIDTH); //all table td elements, header row removed
         const filled = allTDs.every(val => val.hasChildNodes());
 
         //console.log('filled'.concat(` ${ filled}`));
@@ -181,6 +181,7 @@ function checkForWin() {
     }
   }
 }
+
 
 makeBoard();
 makeHtmlBoard();

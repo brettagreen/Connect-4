@@ -1,6 +1,19 @@
 /* game board table */
+button {
+  display:inline;
+}
 
-#board td {
+.colorbox {
+  margin-left:10px;
+  margin-right:10px;
+}
+
+#colorForm {
+  visibility: hidden;
+  margin-top:6px;
+}
+
+table td {
   width: 80px;
   height: 80px;
   border: solid 1px #666;
@@ -16,24 +29,9 @@
   height: 80%;
 }
 
-.player1 {
-  background-color: blue;
-}
-
-.player2 {
-  background-color: red;
-}
-
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
 
 /* column-top is table row of clickable areas for each column */
-
-#column-top td {
-  border-left: dashed 1px slategray;
-  border-right: dashed 1px slategray;
-  border-top:none;
-  border-bottom:none;
-}
 
 #column-top td:hover {
   background-color: rgb(234, 218, 132);
@@ -52,4 +50,11 @@
 
 body {
   background-color:lightgray;
+}
+
+#column-top td {
+    border-left: dashed 1px slategray;
+    border-right: dashed 1px slategray;
+    border-top:none;
+    border-bottom:none;
 }
