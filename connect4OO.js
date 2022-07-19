@@ -13,18 +13,12 @@ class Player {
       this.color = color;
     }
   }
+}
 
-  //code modified from https://www.codegrepper.com/code-examples/javascript/convert+hex+to+string+javascript
-  //doesn't work for most colors but still gets the point across :P
-  hexToAscii() {
-      let hex  = this.color;
-      let str = '';
-      for (var n = 0; n < hex.length; n += 2) {
-        str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
-      }
-      return str;
-  } 
-
+class ComputerPlayer {
+  constructor() {
+    this.color = `rgb(${Math.round(Math.random()*256)}, ${Math.round(Math.random()*256)}, ${Math.round(Math.random()*256)})`;
+  }
 }
 
 class Game {
@@ -40,6 +34,7 @@ class Game {
       this.currPlayer = playerArray[0];
       this.makeVirtualBoard();
       this.makeHtmlBoard();
+      console.log(this.playerArray);
     }
     //let currPlayer = 1; // active player: 1 or 2
     //const board = []; // array of rows, each row is array of cells  (board[y][x])
@@ -176,6 +171,7 @@ class Game {
     
     /** handleClick: handle click of column top to play piece */
       handleClick(evt) {
+        console.log(evt);
     
         //get column from ID of clicked cell
         const column = evt.target.id;
@@ -215,17 +211,14 @@ class Game {
                 setTimeout(() => {
                   for (let x = 0; x < this.playerArray.length; x++) {
                     if (this.currPlayer === this.playerArray[x]) {
-                      this.endGame(`${this.playerArray[x].hexToAscii()} won!`);
+                      this.endGame(`Player${x+1} won!`);
                     }
-                  }
-                  
-                }, 500)
+                  }                  
+                }, 300)
             };
             //switch players after each turn
             for (let x = 0; x < this.playerArray.length; x++) {
               if (this.currPlayer === this.playerArray[x]) {
-                console.log(this.currPlayer)
-                console.log(this.playerArray[x]);
                 if (x + 1 === this.playerArray.length) {
                   this.currPlayer = this.playerArray[0];
                 } else {
@@ -234,7 +227,19 @@ class Game {
                 break;
               }
             }
-            
+            if (this.currPlayer instanceof ComputerPlayer) {
+              while(true) {
+                  let column = Math.round(Math.random()*(this.WIDTH-1));
+                  console.log(column)
+                  for (y=0; y<this.HEIGHT; y++) {
+                    console.log(document.getElementById(`${column}-${y}`));
+                    if (!document.getElementById(`${column}-${y}`).hasChildNodes()) {
+                        document.getElementById(column).click();
+                        return false;
+                    }
+                  }
+              }
+            }
           }
       }
   }
@@ -247,19 +252,40 @@ document.getElementById('start').addEventListener('click', function(e) {
     inputs.forEach(val => {
       playerArray.push(new Player(val.value));
     });
+    if (playerArray.length === 1) {
+      playerArray.push(new ComputerPlayer());
+    }
     new Game(6, 7, playerArray);
 });
 
 document.getElementById('playersForm').addEventListener('change', function() {
   const startButton = document.getElementById('start');
   const parent = startButton.parentElement;
-  for (let x = 0; x < numPlayers.value; x++) {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'color');
-    input.setAttribute('id', `player${x+1}`);
-    input.classList.add('colorbox');
-    parent.insertBefore(input, startButton);
-  }
+  const inputs = document.querySelectorAll('.colorbox');
+  const spans = document.querySelectorAll('.colorbox-text');
+
+  let currInputs = inputs.length;
+  let currSpans = spans.length;
+
+  if (currInputs > numPlayers.value) {
+    for (let x = currInputs - 1; x > numPlayers.value - 1; x--) {
+      inputs[x].remove();
+      spans[x].remove();
+    }
+
+  } else if (currInputs < numPlayers.value || currInputs === numPlayers.value) {
+      for (let x = currInputs; x < numPlayers.value; x++) {
+        const input = document.createElement('input');
+        const span = document.createElement('span');
+        span.classList.add('colorbox-text');
+        span.innerText = `Player${x+1}:`
+        input.setAttribute('type', 'color');
+        input.setAttribute('id', `player${x+1}`);
+        input.classList.add('colorbox');
+        parent.insertBefore(span, startButton);
+        parent.insertBefore(input, startButton);
+      }
+  } 
 
   colorInputs.style.visibility = 'visible'
 });

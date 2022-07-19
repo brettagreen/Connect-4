@@ -3,8 +3,12 @@ button {
   display:inline;
 }
 
+label {
+  font-weight: bold;
+}
+
 .colorbox {
-  margin-left:10px;
+  margin-left:3px;
   margin-right:10px;
 }
 
